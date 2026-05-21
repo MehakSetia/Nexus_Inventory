@@ -18,6 +18,7 @@ const ProductSchema=new Schema({
         type:Number,
         required:true
     },
+    imageUrl: String,
     description:String,
     vendor:{
         type:mongoose.Schema.Types.ObjectId,

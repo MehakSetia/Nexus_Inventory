@@ -8,6 +8,7 @@ const productSchema=z.object({
     quantity:z.number().gt(0),
     price:z.number().gt(0),
     description:z.string().optional(),
+    imageUrl:z.string().optional(),
     dimensions:z.object({
         length:z.number().gt(0),
         width:z.number().gt(0),

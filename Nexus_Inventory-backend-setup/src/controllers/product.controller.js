@@ -5,8 +5,8 @@ const {productSchema}=require('../validators/product.validator');
 
 const addProduct=async(req,res,next)=>{
     try{
-        const {name,category,quantity,price,description,dimensions}=req.body;
-        productSchema.parse({name,category,quantity,price,description,dimensions});
+        const {name,category,quantity,price,description,dimensions,imageUrl}=req.body;
+        productSchema.parse({name,category,quantity,price,description,dimensions,imageUrl});
         const vendorId=req.user.userId;
         const role=req.user.role;
         if(role!=="Vendor"){
@@ -14,7 +14,7 @@ const addProduct=async(req,res,next)=>{
             error.statusCode=403;
             return next(error);
         }
-        const newP=await product.create({name,category,quantity,price,description,dimensions,vendor:vendorId});
+        const newP=await product.create({name,category,quantity,price,description,dimensions,imageUrl,vendor:vendorId});
         return res.status(201).json({message:"product added",product:newP});
     }
     catch(err){
