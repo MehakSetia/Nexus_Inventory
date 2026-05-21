@@ -1,6 +1,6 @@
 # 🚀 Nexus Inventory
 
-**Live Demo:** [Insert Vercel Link Here](https://your-vercel-link.vercel.app)
+**Live Demo:** https://nexus-cqo0i0imu-mehaksetia2004-4237s-projects.vercel.app
 
 > **A full-stack B2B Inventory & Procurement Platform** — connecting Vendors and Buyers with real-time stock management, integrated payments, and role-based dashboards.
 
