@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
-import { getProductImage } from '../utils/imageStore.js';
-
 export default function EditProductPage({ api }) {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -55,7 +53,7 @@ export default function EditProductPage({ api }) {
     return <div className="page-loader"><div className="spinner" /><span>Loading product details…</span></div>;
   }
 
-  const image = getProductImage(product._id);
+  const image = product.imageUrl;
   const projectedStock = product.quantity + (Number(quantityDelta) || 0);
 
   return (

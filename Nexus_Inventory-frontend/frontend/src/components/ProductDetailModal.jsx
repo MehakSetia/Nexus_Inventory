@@ -1,6 +1,5 @@
 import { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { getProductImage } from '../utils/imageStore.js';
 import { getStoredToken } from '../auth/tokenStore.js';
 
 export default function ProductDetailModal({ product, onClose }) {
@@ -20,7 +19,7 @@ export default function ProductDetailModal({ product, onClose }) {
 
   if (!product) return null;
 
-  const image   = getProductImage(product._id);
+  const image   = product.imageUrl;
   const stored  = getStoredToken();
   const canBuy  = stored?.role === 'Buyer';
   const inStock = product.quantity > 0;

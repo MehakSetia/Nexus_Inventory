@@ -1,10 +1,9 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { getProductImage } from '../utils/imageStore.js';
 import ProductDetailModal from '../components/ProductDetailModal.jsx';
 
 function ProductCard({ p, onClick }) {
-  const image   = getProductImage(p._id);
+  const image   = p.imageUrl;
   const inStock = p.quantity > 0;
   return (
     <div

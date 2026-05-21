@@ -1,7 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
-import { getProductImage } from '../utils/imageStore.js';
-
 export default function CheckoutPage({ api }) {
   const { productId } = useParams();
   const navigate = useNavigate();
@@ -104,7 +102,7 @@ export default function CheckoutPage({ api }) {
     return <div className="page-loader"><div className="spinner" /><span>Loading product details…</span></div>;
   }
 
-  const image = getProductImage(product._id);
+  const image = product.imageUrl;
   const inStock = product.quantity > 0;
   const maxQty = Math.min(product.quantity, 10); // Let's limit to 10 for safety/demo, or just use product.quantity
 

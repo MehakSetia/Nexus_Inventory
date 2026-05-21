@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { getProductImage, deleteProductImage } from '../utils/imageStore.js';
-
 export default function VendorProductsPage({ api }) {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -31,7 +29,6 @@ export default function VendorProductsPage({ api }) {
     if (!confirm('Are you sure you want to delete this product?')) return;
     try {
       await api.delete(`/api/product/${id}/delete`);
-      deleteProductImage(id); // Cleanup local storage image
       setProducts((ps) => ps.filter((p) => p._id !== id));
     } catch (e) {
       alert(e?.response?.data?.message || 'Failed to delete product');
@@ -79,7 +76,7 @@ export default function VendorProductsPage({ api }) {
             </thead>
             <tbody>
               {products.map((p) => {
-                const img = getProductImage(p._id);
+                const img = p.imageUrl;
                 const inStock = p.quantity > 0;
                 return (
                   <tr key={p._id}>

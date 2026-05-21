@@ -1,39 +1,16 @@
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { saveProductImage } from '../utils/imageStore.js';
-
 export default function AddProductPage({ api }) {
   const navigate = useNavigate();
   const [form, setForm] = useState({ 
     name: '', category: 'Electronics', quantity: '', price: '', description: '',
-    dimLength: '', dimWidth: '', dimHeight: '', dimUnit: 'cm'
+    dimLength: '', dimWidth: '', dimHeight: '', dimUnit: 'cm', imageUrl: ''
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const [imageFile, setImageFile]       = useState(null);
-  const [imagePreview, setImagePreview] = useState(null);
-  const fileRef = useRef(null);
-
   function field(key) {
     return (e) => setForm((f) => ({ ...f, [key]: e.target.value }));
-  }
-
-  function handleImageChange(e) {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    if (!file.type.startsWith('image/')) { setError('Please choose an image file (JPG, PNG).'); return; }
-    setError('');
-    setImageFile(file);
-    const reader = new FileReader();
-    reader.onload = (ev) => setImagePreview(ev.target.result);
-    reader.readAsDataURL(file);
-  }
-
-  function removeImage() {
-    setImageFile(null);
-    setImagePreview(null);
-    if (fileRef.current) fileRef.current.value = '';
   }
 
   async function submit(e) {
@@ -47,6 +24,7 @@ export default function AddProductPage({ api }) {
         quantity: Number(form.quantity),
         price: Number(form.price),
         description: form.description,
+        imageUrl: form.imageUrl,
         dimensions: {
           length: Number(form.dimLength),
           width: Number(form.dimWidth),
@@ -55,12 +33,7 @@ export default function AddProductPage({ api }) {
         }
       };
       
-      const res = await api.post('/api/product/add', payload);
-
-      const newProduct = res.data?.product || res.data;
-      if (imageFile && newProduct?._id) {
-        await saveProductImage(newProduct._id, imageFile);
-      }
+      await api.post('/api/product/add', payload);
 
       navigate('/vendor/products');
     } catch (err) {
@@ -87,20 +60,13 @@ export default function AddProductPage({ api }) {
         <form onSubmit={submit} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
           
           <div className="field">
-            <label className="label">Product Image</label>
-            {imagePreview ? (
-              <div className="upload-preview" style={{ position: 'relative', width: '100%', height: '240px', borderRadius: 'var(--radius-md)', overflow: 'hidden', background: 'var(--bg-2)', border: '1px solid var(--border)' }}>
-                <img src={imagePreview} alt="Preview" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
-                <button type="button" onClick={removeImage} className="upload-remove" style={{ position: 'absolute', top: 8, right: 8, background: 'rgba(0,0,0,0.7)', color: '#fff', border: 'none', padding: '6px 12px', borderRadius: 'var(--radius-sm)', cursor: 'pointer', fontSize: '0.8rem', backdropFilter: 'blur(4px)' }}>✕ Remove Image</button>
-              </div>
-            ) : (
-              <div className="upload-zone" onClick={() => fileRef.current?.click()} onDragOver={(e) => e.preventDefault()} onDrop={(e) => { e.preventDefault(); const f = e.dataTransfer.files?.[0]; if (f) handleImageChange({ target: { files: [f] } }); }}>
-                <span style={{ fontSize: '2rem' }}>🖼️</span>
-                <span style={{ fontSize: '0.92rem', color: 'var(--heading)', fontWeight: 500 }}>Click or drag image here</span>
-                <span style={{ fontSize: '0.75rem', color: 'var(--text-2)' }}>Supports JPG, PNG, WebP up to 4MB</span>
+            <label className="label">Image URL</label>
+            <input className="input" placeholder="e.g., https://i.imgur.com/your-image.jpg" value={form.imageUrl} onChange={field('imageUrl')} />
+            {form.imageUrl && (
+              <div style={{ marginTop: '0.5rem', width: '100%', height: '240px', borderRadius: 'var(--radius-md)', overflow: 'hidden', background: 'var(--bg-2)', border: '1px solid var(--border)' }}>
+                <img src={form.imageUrl} alt="Preview" style={{ width: '100%', height: '100%', objectFit: 'contain' }} onError={(e) => { e.target.style.display = 'none'; }} />
               </div>
             )}
-            <input ref={fileRef} type="file" accept="image/*" onChange={handleImageChange} style={{ display: 'none' }} />
           </div>
 
           <div className="field">
