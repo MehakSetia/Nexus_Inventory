@@ -28,7 +28,7 @@ const getAllProducts=async(req,res,next)=>{
      const page=parseInt(req.query.page) || 1;
      const limit=parseInt(req.query.limit) || 10;
      
-    if(req.query.category) query.category=req.query.category;
+    if(req.query.category) query.category={$regex: new RegExp(`^${req.query.category}$`, 'i')};
 
     if(req.query.minPrice || req.query.maxPrice){
         query.price={};
