@@ -22,7 +22,6 @@ Nexus is a **B2B Inventory Management System** built to streamline procurement a
 | **JWT** | Authentication & Authorization |
 | **Zod** | Schema validation |
 | **Razorpay** | Payment gateway integration |
-| **Multer** | Image upload handling |
 
 ### Frontend
 | Technology | Purpose |
