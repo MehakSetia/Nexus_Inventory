@@ -99,9 +99,9 @@ export default function ProductsPage({ api }) {
       {/* Filters */}
       <div className="filter-bar">
         <input className="input" placeholder="Search…" value={q} onChange={(e)=>setQ(e.target.value)} onKeyDown={(e)=>e.key==='Enter'&&applyFilters()} id="f-search" />
-        <input className="input" placeholder="Category" value={cat} onChange={(e)=>setCat(e.target.value)} id="f-cat" />
-        <input className="input" type="number" placeholder="Min ₹" value={min} onChange={(e)=>setMin(e.target.value)} style={{maxWidth:100}} id="f-min" />
-        <input className="input" type="number" placeholder="Max ₹" value={max} onChange={(e)=>setMax(e.target.value)} style={{maxWidth:100}} id="f-max" />
+        <input className="input" placeholder="Category" value={cat} onChange={(e)=>setCat(e.target.value)} onKeyDown={(e)=>e.key==='Enter'&&applyFilters()} id="f-cat" />
+        <input className="input" type="number" placeholder="Min ₹" value={min} onChange={(e)=>setMin(e.target.value)} onKeyDown={(e)=>e.key==='Enter'&&applyFilters()} style={{maxWidth:100}} id="f-min" />
+        <input className="input" type="number" placeholder="Max ₹" value={max} onChange={(e)=>setMax(e.target.value)} onKeyDown={(e)=>e.key==='Enter'&&applyFilters()} style={{maxWidth:100}} id="f-max" />
         <select className="select" value={sort} onChange={(e)=>setSort(e.target.value)} style={{flex:'0 0 130px'}} id="f-sort">
           <option value="">Sort by</option>
           <option value="newest">Newest</option>
